@@ -1,0 +1,23 @@
+Source: phosh-osk-data
+Section: text
+Priority: optional
+Maintainer: Guido Günther <agx@sigxcpu.org>
+Rules-Requires-Root: no
+Build-Depends:
+ debhelper-compat (= 13),
+ presage,
+ wget,
+Standards-Version: 4.6.1
+
+Package: phosh-osk-data-eu
+Architecture: all
+Depends:
+ libpresage-data,
+ ${shlibs:Depends},
+ ${misc:Depends},
+Suggests:
+ phosh-osk-stub,
+Description: OSK completion data for phosh - European languages
+ Data to enable text completion in phosh-osk-stub via presage.
+ .
+ This package contains the data files for some European languages.

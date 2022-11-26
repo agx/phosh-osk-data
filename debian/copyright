@@ -1,0 +1,68 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Source: <url://example.com>
+Upstream-Name: phosh-osk-data
+Upstream-Contact: Guido Günther <agx@sigxcpu.org>
+
+Files:
+ input/database_de.txt
+Copyright:
+ 1909 by S. Fischer Verlag, Berlin
+License: Project Gutenberg License
+
+Files:
+ input/database_it.txt
+License:
+ Creating the works from print editions not protected by U.S. copyright
+ law means that no one owns a United States copyright in these works,
+ so the Foundation (and you!) can copy and distribute it in the
+ United States without permission and without paying copyright
+ royalties. Special rules, set forth in the General Terms of Use part
+ of this license, apply to copying and distributing Project
+ Gutenberg-tm electronic works to protect the PROJECT GUTENBERG-tm
+ concept and trademark. Project Gutenberg is a registered trademark,
+ and may not be used if you charge for an eBook, except by following
+ the terms of the trademark license, including paying royalties for use
+ of the Project Gutenberg trademark. If you do not charge anything for
+ copies of this eBook, complying with the trademark license is very
+ easy. You may use this eBook for nearly any purpose such as creation
+ of derivative works, reports, performances and research. Project
+ Gutenberg eBooks may be modified and printed and given away--you may
+ do practically ANYTHING in the United States with eBooks not protected
+ by U.S. copyright law. Redistribution is subject to the trademark
+ license, especially commercial redistribution.
+
+Files:
+ input/database_sv.txt
+Copyright:
+ Albert Bonnier 1914.
+License: Project Gutenberg License
+
+Files:
+ debian/*
+Copyright:
+ 2022 Guido Günther <agx@sigxcpu.org>
+License: GPL-2+
+ This package is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ .
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <https://www.gnu.org/licenses/>
+Comment:
+ On Debian systems, the complete text of the GNU General
+ Public License version 2 can be found in "/usr/share/common-licenses/GPL-2".
+
+License: Project Gutenberg License
+ Project Gutenberg eBooks may be freely used in the United States
+ because most are not protected by U.S. copyright law. They may not be
+ free of copyright in other countries. Readers outside of the United
+ States must check the copyright terms of their countries before
+ accessing, downloading or redistributing eBooks. We also have a number
+ of copyrighted titles, for which the copyright holder has given
+ permission for unlimited non-commercial worldwide use.

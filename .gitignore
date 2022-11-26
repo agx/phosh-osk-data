@@ -1,0 +1,8 @@
+input/
+out/
+debian/.debhelper/
+debian/debhelper-build-stamp
+debian/debhelper-build-stamp
+debian/files
+debian/phosh-osk-data-eu/
+debian/phosh-osk-data-eu.substvars

@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+# Download data and convert to utf-8 for presage models
+
+set -e
+
+function get_one()
+{
+   local lang="$1"
+   local url="$2"
+   local dir="${3:-input}"
+
+   mkdir -p "$dir"
+   wget -O"$dir/database_${lang}.txt" "${url}"
+}
+
+mkdir -p input/
+
+# de: Thomas Mann: Buddenbroks:
+get_one de 'https://archive.org/download/buddenbrooksverf34811gut/34811-8.txt' tmp
+iconv -f ISO-8859-1 -t UTF-8//TRANSLIT tmp/database_de.txt -o input/database_de.txt
+rm tmp/database_de.txt
+
+# it: Dante Alighieri: La Divina Commedia di Dante:
+get_one it 'https://www.gutenberg.org/files/997/997-0.txt'
+
+# sv: August Strindberg: Inferno:
+get_one sv 'https://www.gutenberg.org/cache/epub/29935/pg29935.txt'
+
