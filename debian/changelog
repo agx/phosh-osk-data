@@ -1,5 +1,5 @@
-phosh-osk-data (0.24.0) experimental; urgency=medium
+phosh-osk-data (0.25.0) experimental; urgency=medium
 
   * Initial release.
 
- -- Guido Günther <agx@sigxcpu.org>  Tue, 08 Nov 2022 17:22:34 +0100
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 28 Feb 2023 15:57:15 +0100
