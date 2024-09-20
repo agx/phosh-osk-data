@@ -18,4 +18,4 @@ install: $(OUT)
 	install -D -t $(DESTDIR)$(DIR) -m 0644 $(OUT)
 
 clean:
-	rm -rf out/
+	rm -rf out/ tmp/
