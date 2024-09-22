@@ -1,0 +1,132 @@
+#!/usr/bin/python3
+#
+# Copyright (C) The Phosh Developers
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Author: Guido Günther <agx@sigxcpu.org>
+#
+# Build a package for the given OSK data
+
+import sys
+import argparse
+import subprocess
+import requests
+import shutil
+from tempfile import TemporaryDirectory
+from tqdm import tqdm
+from pathlib import Path
+
+
+VERSION = '0.42.0'
+URL = 'https://data.phosh.mobi/osk-data'
+
+
+def build_deb(dbfile, dir, engine, lang):
+    pkgname = f'phosh-osk-data-{lang}'
+    pkgdir = Path(dir) / pkgname
+    dbdir = pkgdir / 'usr' / 'share' / 'phosh' / 'osk' / engine
+    debian = pkgdir / 'DEBIAN'
+    control = debian / 'control'
+
+    dbdir.mkdir(parents=True)
+    debian.mkdir(parents=True)
+
+    shutil.move(dbfile, dbdir)
+
+    with open(control, 'w') as f:
+        f.write(f"""Package: {pkgname}
+Source: phosh-osk-data
+Version: {VERSION}-1
+Architecture: all
+Maintainer: Guido Günther <agx@sigxcpu.org>
+Suggests: phosh-osk-stub
+Breaks: phosh-osk-data-eu (<< 0.42)
+Replaces: phosh-osk-data-eu (<< 0.42)
+Section: text
+Priority: optional
+Description: OSK completion data for phosh - {lang}
+ Data to enable text completion in phosh-osk-stub via {engine}.
+ .
+ This package contains the data files for {lang}.
+ .
+ It was generated via pod-build-pkg.
+""")
+
+    subprocess.check_call(["dpkg-deb", '-b', pkgdir, dir])
+    deb = Path(dir) / f'{pkgname}_{VERSION}-1_all.deb'
+    if not deb.exists():
+        raise Exception(f"Deb {deb} not created")
+    return deb
+
+
+def download_db(dir, engine, lang):
+    dbname = f'database_{lang}.db'
+    dbfile = Path(dir) / dbname
+    url = URL + f'/{VERSION}/{engine}/{dbname}'
+
+    response = requests.get(url, stream=True)
+    if response.status_code == 404:
+        print(f"No datase found for '{lang}'", file=sys.stderr)
+        return None
+    response.raise_for_status()
+    total = int(response.headers.get("content-length", 0))
+    with tqdm(total=total, unit="B", unit_scale=True) as progress_bar:
+        with open(dbfile, "wb") as f:
+            for data in response.iter_content(4096):
+                progress_bar.update(len(data))
+                f.write(data)
+
+    return dbfile
+
+
+def install_deb(pkg):
+    try:
+        subprocess.check_call(["pkexec", "dpkg", "-i", str(pkg)])
+    except Exception as e:
+        print(f"Failed to install package: {e}", file=sys.stderr)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Download and Build a package for the given OSK data"
+    )
+    parser.add_argument(
+        "--language", type=str, default="en", help="Language to use"
+    )
+    parser.add_argument(
+        "--engine", type=str, default='presage', choices=['presage'], help="Completion engine"
+    )
+    parser.add_argument(
+        "--pkg", type=str, default='deb', choices=['deb'], help="Package format"
+    )
+    parser.add_argument(
+        "--install", action="store_true", help="Install the built package"
+    )
+    args = parser.parse_args()
+
+    with TemporaryDirectory(prefix="pod-build-pkg") as dir:
+        dbfile = download_db(dir, args.engine, args.language)
+        if not dbfile:
+            return 1
+
+        if args.pkg == 'deb':
+            pkg = build_deb(dbfile, dir, args.engine, args.language)
+        else:
+            print(f"Unsupported packaging format '{args.pkg}'", file=sys.stderr)
+            return 1
+
+        if args.install:
+            if args.pkg == 'deb':
+                pkg = install_deb(pkg)
+            else:
+                print(f"Don't know how to install '{args.pkg}'", file=sys.stderr)
+                return 1
+        else:
+            shutil.move(pkg, '.')
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -31,7 +31,8 @@ variables:
 
 .step: &build_step
   script:
-    - ./fetch
+    - mkdir -p out/
+    - make check
     - dpkg-buildpackage -uc -us -rfakeroot -A
     - 'cp ../phosh-osk-data-*_$(dpkg-parsechangelog -SVersion)_all.deb out/'
 
