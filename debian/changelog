@@ -1,3 +1,15 @@
+phosh-osk-data (0.42.0~rc1) experimental; urgency=medium
+
+  * build: Clean tmp/ too
+  * ci: Use a more recent image
+  * treewide: Allow to use Wikipedia dumps to build the corpus.
+    This allows us to use DFSG free and modern CC BY-SA 4.0 data.
+    We also provide a small anisble role to set up a host for that and a
+    script that downloads and packages the corpus into a distribution
+    package (currently deb only).
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 09 Oct 2024 15:53:28 +0200
+
 phosh-osk-data (0.25.0) experimental; urgency=medium
 
   * Initial release.
