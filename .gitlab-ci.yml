@@ -22,7 +22,7 @@ default:
 variables:
   # For ci-fairy
   FDO_UPSTREAM_REPO: guidog/phosh-osk-data
-  DEBIAN_IMAGE: $CI_REGISTRY/guidog/phosh-osk-stub/debian:v0.0.20230129
+  DEBIAN_IMAGE: $CI_REGISTRY/guidog/phosh-osk-stub/debian:v0.0.2024-06-19
 
 .prep: &prep
   before_script:
@@ -31,7 +31,8 @@ variables:
 
 .step: &build_step
   script:
-    - ./fetch
+    - mkdir -p out/
+    - make check
     - dpkg-buildpackage -uc -us -rfakeroot -A
     - 'cp ../phosh-osk-data-*_$(dpkg-parsechangelog -SVersion)_all.deb out/'
 
@@ -53,7 +54,7 @@ sanity:
     variables:
       - $CI_OPEN_MERGE_REQUESTS && $PKG_ONLY != "1"
 
-build:native-debian-bookworm:
+build:native-debian-trixie:
   stage: build
   image: ${DEBIAN_IMAGE}
   <<: *prep

@@ -1,21 +1,13 @@
-TEXT2NGRAM=text2ngram
+PY_SCRIPTS = \
+	pod-db-from-wiki-dump \
+	phosh-osk-data-packager \
+	$(NULL)
 
-IN := $(wildcard input/database_*.txt)
-INPUT_NAMES := $(notdir $(IN))
-OUT := $(addprefix out/,$(INPUT_NAMES:.txt=.db))
-DIR=/usr/share/phosh/osk/presage
+check:
+	flake8 --format=pylint $(PY_SCRIPTS)
 
-all: $(OUT)
-
-out/%.db: input/%.txt
-	mkdir -p out
-	rm -f $@
-	$(TEXT2NGRAM) -n 1 -l -f sqlite -o $@ $^
-	$(TEXT2NGRAM) -n 2 -l -f sqlite -o $@ $^
-	$(TEXT2NGRAM) -n 3 -l -f sqlite -o $@ $^
-
-install: $(OUT)
-	install -D -t $(DESTDIR)$(DIR) -m 0644 $(OUT)
+man:
+	$(MAKE) -C doc
 
 clean:
-	rm -rf out/
+	$(MAKE) -C doc clean

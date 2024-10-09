@@ -1,4 +1,0 @@
-- Strip the English copyright bits before processing
-- Be case sensitive, data is are currenlty processed with the '-l' (lowercase) option
-- Add a way to drop low probability rows
-- Switch uptream? https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1023672

@@ -1,0 +1,67 @@
+- name: Setup Phosh OSK Data wiki builder
+  gather_facts: false
+  hosts: all
+  vars:
+    pod_user: pod-builder
+    pod_home: "/home/pod-builder"
+    wikiextractorpkg: "wikiextractor_3.0.7-1_all.deb"
+  tasks:
+    - name: Add packages
+      ansible.builtin.apt:
+        pkg:
+          - htop
+          - kitty-terminfo
+          - python3-nltk
+          - python3-tqdm
+          - screen
+          - sqlite3
+          - vim-nox
+          - wget
+
+    - name: Add user
+      ansible.builtin.user:
+        name: "{{ pod_user }}"
+        system: true
+        create_home: true
+        shell: /usr/sbin/nologin
+        home: "{{ pod_home }}"
+
+    - name: Download wikiextractor until in Debian
+      ansible.builtin.get_url:
+        url: "https://people.debian.org/~agx/wikiextractor/{{ wikiextractorpkg }}"
+        dest: "{{ pod_home }}/{{ wikiextractorpkg }}"
+
+    - name: Install wikiextractor
+      ansible.builtin.command: dpkg -i "{{ pod_home }}/{{ wikiextractorpkg }}"
+
+    - name: Copy script
+      ansible.builtin.copy:
+        src: ../pod-db-from-wiki-dump
+        dest: "{{ pod_home }}/pod-db-from-wiki-dump"
+        owner: pod-builder
+        mode: '0755'
+
+    - name: Creates directory
+      ansible.builtin.file:
+        path: "{{ pod_home }}/output"
+        state: directory
+        owner: "{{ pod_user }}"
+
+    - name: Check for wiki data volume
+      ansible.builtin.stat:
+        path: "/dev/disk/by-label/wiki-data"
+      register: d
+
+    - name: Mount data volume
+      ansible.posix.mount:
+        path: "{{ pod_home }}/output"
+        src: "/dev/disk/by-label/wiki-data"
+        state: mounted
+        fstype: ext4
+      when: d.stat.islnk is defined and d.stat.islnk
+
+    - name: Allow access to output dir
+      ansible.builtin.file:
+        path: "{{ pod_home }}/output"
+        state: directory
+        owner: "{{ pod_user }}"
