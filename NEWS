@@ -1,5 +1,5 @@
-phosh-osk-data 0.42.0~rc1
---------------------------
+phosh-osk-data 0.42.0
+---------------------
 Released: October 2024
 * Move to databases built from Wikipedia dumps
 * Allow to built packages from the db files for local installation

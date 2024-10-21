@@ -1,3 +1,9 @@
+phosh-osk-data (0.42.0) experimental; urgency=medium
+
+  * Release 0.42.0
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 21 Oct 2024 23:00:26 +0200
+
 phosh-osk-data (0.42.0~rc1) experimental; urgency=medium
 
   * build: Clean tmp/ too
