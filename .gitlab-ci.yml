@@ -1,8 +1,12 @@
 include:
  - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/34039cd573a2df832d465bc9e4c5f543571f5241/templates/ci-fairy.yml'
+ - project: 'guidog/meta-phosh'
+   ref: '5e3667e2e4d3f23a5dcadaa2a4aadc8824a9e565'
+   file: '/ci/phosh-common-jobs.yml'
 
 stages:
  - build
+ - test
  - deploy
 
 default:
@@ -35,6 +39,18 @@ variables:
     - make check
     - dpkg-buildpackage -uc -us -rfakeroot -A
     - 'cp ../phosh-osk-data-*_$(dpkg-parsechangelog -SVersion)_all.deb out/'
+
+test-pkg-deb:
+  stage: test
+  image: ${DEBIAN_IMAGE}
+  needs: []
+  variables:
+    PHOSH_ADDITIONAL_PKGS: >
+      python3-requests
+      python3-tqdm
+  script:
+    - !reference [.phosh-prepare-apt]
+    - ./phosh-osk-data-packager --language se --pkg deb
 
 # Sanity checks of MR settings and commit logs
 sanity:
