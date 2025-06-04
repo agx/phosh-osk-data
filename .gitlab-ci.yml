@@ -29,7 +29,7 @@ default:
 variables:
   # For ci-fairy
   FDO_UPSTREAM_REPO: guidog/phosh-osk-data
-  DEBIAN_IMAGE: $CI_REGISTRY/guidog/phosh-osk-stub/debian:v0.0.2024-06-19
+  DEBIAN_IMAGE: $CI_REGISTRY/guidog/stevia/debian:v0.0.2025-05-19
 
 .prep: &prep
   before_script:
