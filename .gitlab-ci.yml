@@ -1,13 +1,16 @@
+---
 include:
- - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/34039cd573a2df832d465bc9e4c5f543571f5241/templates/ci-fairy.yml'
- - project: 'guidog/meta-phosh'
-   ref: '5e3667e2e4d3f23a5dcadaa2a4aadc8824a9e565'
-   file: '/ci/phosh-common-jobs.yml'
+  - project: 'guidog/meta-phosh'
+    ref: '5e3667e2e4d3f23a5dcadaa2a4aadc8824a9e565'
+    file: '/ci/phosh-common-jobs.yml'
+  - project: 'Infrastructure/freedesktop-ci-templates'
+    ref: '6a40df92957c8ce9ee741aaccc5daaaf70545b1e'
+    file: '/templates/ci-fairy.yml'
 
 stages:
- - build
- - test
- - deploy
+  - build
+  - test
+  - deploy
 
 default:
   # Protect CI infra from rogue jobs
@@ -26,7 +29,7 @@ default:
 variables:
   # For ci-fairy
   FDO_UPSTREAM_REPO: guidog/phosh-osk-data
-  DEBIAN_IMAGE: $CI_REGISTRY/guidog/phosh-osk-stub/debian:v0.0.2024-06-19
+  DEBIAN_IMAGE: $CI_REGISTRY/guidog/stevia/debian:v0.0.2025-05-19
 
 .prep: &prep
   before_script:
@@ -57,18 +60,15 @@ sanity:
   extends:
     - .fdo.ci-fairy
   stage: build
+  variables:
+    GIT_DEPTH: "100"
   script: |
-    if [ -n "$CI_OPEN_MERGE_REQUESTS" ]; then
-      ci-fairy check-commits --junit-xml=commit-message-junit-report.xml cifairy/main..HEAD ;
-    else
-      echo "Not a merge request" ;
-    fi
+    ci-fairy check-commits --signed-off-by --junit-xml=commit-message-junit-report.xml
   artifacts:
     reports:
       junit: commit-message-junit-report.xml
-  only:
-    variables:
-      - $CI_OPEN_MERGE_REQUESTS && $PKG_ONLY != "1"
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME'
 
 build:native-debian-trixie:
   stage: build

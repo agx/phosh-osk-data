@@ -1,8 +1,9 @@
 # phosh osk data
 
-Scripts to build word prediction data for [phosh-osk-stub][] and other presage
-based completers. The aim here is to have models that are distributable without
-licensing issues and using modern language so we're using Wikipedia dumps.
+Scripts to build word prediction data for [phosh-osk-stevia][] (formerly
+known as phosh-osk-stub) and other presage based completers. The aim here is to
+have models that are distributable without licensing issues and using modern
+language so we're using Wikipedia dumps.
 
 ## Building your own dictionaries based in Wikipedia data
 
@@ -29,13 +30,13 @@ wget "https://dumps.wikimedia.org/${LANG}wiki/latest/${LANG}wiki-latest-pages-ar
 
 Import some nltk data:
 
-```
+```sh
 python3 -c "import nltk; nltk.download('punkt')"
 ```
 
 Process the dump
 
-```
+```sh
 ./pod-db-from-wiki-dump --processes 4 --language "${LANG}" --dump "output/${LANG}wiki-latest-pages-articles.xml.bz2" --output  "output/${LANG}"
 ```
 
@@ -53,6 +54,6 @@ See the [phosh-data-packager manpage](doc/phosh-osk-data-packager.rst).
 
 - presage: <http://presage.sourceforge.net/>
 - sfos presage databases: <https://github.com/sailfish-keyboard/presage-database>
-- phosh-osk-stub: <https://gitlab.gnome.org/guidog/phosh-osk-stub>
+- stevia on screen keyboard: <https://gitlab.gnome.org/guidog/stevia>
 
-[phosh-osk-stub]: https://gitlab.gnome.org/guidog/phosh-osk-stub
+[phosh-osk-stevia]: https://gitlab.gnome.org/guidog/stevia
