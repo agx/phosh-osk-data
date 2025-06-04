@@ -56,4 +56,9 @@ See the [phosh-data-packager manpage](doc/phosh-osk-data-packager.rst).
 - sfos presage databases: <https://github.com/sailfish-keyboard/presage-database>
 - stevia on screen keyboard: <https://gitlab.gnome.org/guidog/stevia>
 
+## Getting in Touch
+
+- Issue tracker: <https://gitlab.gnome.org/guidog/phosh-osk-data/issues/>
+- Matrix: <https://matrix.to/#/#phosh:sigxcpu.org>
+
 [phosh-osk-stevia]: https://gitlab.gnome.org/guidog/stevia
