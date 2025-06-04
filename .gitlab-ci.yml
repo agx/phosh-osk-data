@@ -1,13 +1,14 @@
+---
 include:
- - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/34039cd573a2df832d465bc9e4c5f543571f5241/templates/ci-fairy.yml'
- - project: 'guidog/meta-phosh'
-   ref: '5e3667e2e4d3f23a5dcadaa2a4aadc8824a9e565'
-   file: '/ci/phosh-common-jobs.yml'
+  - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/34039cd573a2df832d465bc9e4c5f543571f5241/templates/ci-fairy.yml'
+  - project: 'guidog/meta-phosh'
+    ref: '5e3667e2e4d3f23a5dcadaa2a4aadc8824a9e565'
+    file: '/ci/phosh-common-jobs.yml'
 
 stages:
- - build
- - test
- - deploy
+  - build
+  - test
+  - deploy
 
 default:
   # Protect CI infra from rogue jobs
