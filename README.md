@@ -29,13 +29,13 @@ wget "https://dumps.wikimedia.org/${LANG}wiki/latest/${LANG}wiki-latest-pages-ar
 
 Import some nltk data:
 
-```
+```sh
 python3 -c "import nltk; nltk.download('punkt')"
 ```
 
 Process the dump
 
-```
+```sh
 ./pod-db-from-wiki-dump --processes 4 --language "${LANG}" --dump "output/${LANG}wiki-latest-pages-articles.xml.bz2" --output  "output/${LANG}"
 ```
 
